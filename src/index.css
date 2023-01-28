@@ -12,7 +12,7 @@
     #11101d 91.61%
   );
   --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
-  font-family: 'Hanalei Fill', cursive;
+  font-family: 'Poppins', sans-serif;
 }
 .bg-primary {
   --tw-bg-opacity: 1;
@@ -20,10 +20,10 @@
 background: linear-gradient(90deg, rgba(9,10,11,1) 4%, rgba(53,44,110,1) 23%, rgba(11,13,77,1) 68%, rgba(13,13,19,1) 91%);
 }
 .nav-heading {
-  font-family:'Hanalei Fill', cursive;
+  font-family: 'Poppins', sans-serif;
 }
 .nav-heading-1 {
-  font-family: 'Hanalei Fill', cursive;
+  font-family: 'Poppins', sans-serif;
 }
 * {
   scroll-behavior: smooth;
