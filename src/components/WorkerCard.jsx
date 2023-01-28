@@ -5,7 +5,7 @@ import ABI from "../utils/abi";
 import { CONTRACT_ADDRESS } from "../constants";
 import { useParams } from "react-router-dom";
 
-const DoctorCard = (props) => {
+const WorkerCard = (props) => {
   const navigateTo = useNavigate();
 
   const [availability, setAvailability] = useState(false);
@@ -24,9 +24,9 @@ const DoctorCard = (props) => {
   });
 
   const checkAvailability = async () => {
-    console.log(docId.toNumber() + " docidddddddd");
-    const doctorData = await contract.getDoctor(docId);
-    const isAvailable = doctorData.isAvailable;
+    console.log(docId.toNumber() + " $$$$");
+    const workerData = await contract.getDoctor(docId);
+    const isAvailable = workerData.isAvailable;
     setAvailability(isAvailable);
     console.log(isAvailable);
   };
@@ -77,4 +77,4 @@ const DoctorCard = (props) => {
   );
 };
 
-export default DoctorCard;
+export default WorkerCard;
