@@ -1,6 +1,6 @@
 # UrbanClapXHuddle
 
-<img width="100" height="100" src="logo.png">
+<img width="100" height="100" src="./logo.png">
 
 ## Description 
 
