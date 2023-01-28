@@ -2,7 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import React, { useEffect, useState } from "react";
 import styles from "../style";
 import ABI from "./../utils/abi";
-import logo from "../assets/logo.svg";
+import UCxH from "../assets/UCxH.png";
 import { useSigner, useContract, useProvider, useAccount } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { CONTRACT_ADDRESS } from "../constants";
@@ -89,7 +89,7 @@ const InitPage = () => {
 
           <ToastContainer />
 
-          <img src={logo} className="w-[150px] h-[150px] m-auto mt-4"></img>
+          <img src={UCxH} className="w-[150px] h-[200px] m-auto mt-4"></img>
           <div className="m-auto flex flex-row justify-center mt-6">
             <h1 className="text-white nav-heading text-4xl text-gradient font-bold">
               Urban
