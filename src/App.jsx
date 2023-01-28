@@ -10,7 +10,7 @@ import DashBoard from "./components/DashBoard";
 import styles from "./style";
 import InitPage from "./components/InitPage";
 import Team from "./components/Team";
-import DoctorDetails from "./components/DoctorDetails";
+import WorkerDetails from "./components/WorkerDetails";
 import MyProfile from "./components/MyProfile";
 import MeetingPage from "./components/MeetingPage";
 
@@ -34,7 +34,7 @@ export default function App() {
             <Route path="/auth" element={<InitPage />} />
             <Route path="/home" element={<DashBoard />} />
             <Route path="/team" element={<Team />} />
-            <Route path="/doc/:docId" element={<DoctorDetails />} />
+            <Route path="/doc/:docId" element={<WorkerDetails />} />
             <Route path="/updateprofile" element={<MyProfile />} />
             <Route path="/call/:meetingId" element={<MeetingPage />} />
           </Routes>
