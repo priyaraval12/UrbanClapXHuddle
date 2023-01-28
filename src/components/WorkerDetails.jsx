@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "../style";
-import doc from "../assets/doctor.svg";
+import doc from "../assets/worker.svg";
 import matic from "../assets/polygon-matic-logo.svg";
-import ABI from "./../utils/abi";
+import ABI from "../utils/abi";
 import { useParams, useNavigate, createSearchParams } from "react-router-dom";
 import { useAccount, useSigner, useContract, useProvider } from "wagmi";
 import { CONTRACT_ADDRESS } from "../constants";
 import { ethers } from "ethers";
 import { toast, ToastContainer } from "react-toastify";
 
-const DoctorDetails = () => {
+const WorkerDetails = () => {
   const [docName, setDocName] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
@@ -34,11 +34,11 @@ const DoctorDetails = () => {
     signerOrProvider: signer || provider,
   });
 
-  const startMeetingWithDoc = async () => {
-    const doctorData = await contract.getDoctor(docId);
-    const meetingLink = doctorData.meetingLink;
-    const price = doctorData.price;
-    const isAvailable = doctorData.isAvailable;
+  const startMeetingWithWorker = async () => {
+    const workerData = await contract.getWorker(docId);
+    const meetingLink = workerData.meetingLink;
+    const price = workerData.price;
+    const isAvailable = workerData.isAvailable;
     if (isAvailable) {
       const tx = await contract.addAppointment(docId, price, {
         value: price,
@@ -51,13 +51,13 @@ const DoctorDetails = () => {
         },
       });
     } else {
-      toast.error("Doctor not available right now! 😵", { autoClose: 5000 });
+      toast.error("Worker not available right now! 😵", { autoClose: 5000 });
     }
   };
 
   const navigateToMyMeeting = async () => {
-    const doctorData = await contract.getDoctor(docId);
-    const meetingLink = doctorData.meetingLink;
+    const workerData = await contract.getWorker(docId);
+    const meetingLink = workerData.meetingLink;
     navigateTo(`/call/${meetingLink}`, {
       state: {
         add: docAddress,
@@ -65,30 +65,30 @@ const DoctorDetails = () => {
     });
   };
 
-  const changeAvailabilityAndNavigateDoctor = async () => {
-    const id = toast.loading("Chaning Availability...");
-    const doctorData = await contract.getDoctor(docId);
-    const meetingLink = doctorData.meetingLink;
-    const isAvailable = doctorData.isAvailable;
-    const doctorAdd = doctorData.doctorWallet;
+  const changeAvailabilityAndNavigateWorker = async () => {
+    const id = toast.loading("Changing Availability...");
+    const workerData = await contract.getWorker(docId);
+    const meetingLink = workerData.meetingLink;
+    const isAvailable = workerData.isAvailable;
+    const workerAdd = workerData.workerWallet;
     try {
       if (!isAvailable) {
-        const tx = await contract.changeAvailability(doctorAdd);
+        const tx = await contract.changeAvailability(workerAdd);
         await tx.wait();
         setAvailability(true);
         toast.update(id, {
-          render: "Switched your availiability 😉",
+          render: "Switched your availability 😉",
           type: "success",
           isLoading: false,
           autoClose: 5000,
         });e:
         cd
       } else {
-        const tx = await contract.changeAvailability(doctorAdd);
+        const tx = await contract.changeAvailability(workerAdd);
         await tx.wait();
         setAvailability(false);
         toast.update(id, {
-          render: "Switched your availiability 😉",
+          render: "Switched your availability 😉",
           type: "success",
           isLoading: false,
           autoClose: 5000,
@@ -105,15 +105,15 @@ const DoctorDetails = () => {
     
   };
 
-  const getDoctorDetail = async () => {
+  const getWorkerDetail = async () => {
     try {
-      const doctorData = await contract.getDoctor(docId);
-      if (doctorData.doctorWallet === "0x0000000000000000000000000000000000000000") {
-        toast.error("Oops! Doctor doesn't exist 🫤")
+      const workerData = await contract.getWorker(docId);
+      if (workerData.workerWallet === "0x0000000000000000000000000000000000000000") {
+        toast.error("Oops! Worker doesn't exist 🫤")
         navigateTo("/home")
       }
-      const numberOfRaters = doctorData.numberOfRaters.toNumber();
-      const ratingTotal = doctorData.rating.toNumber();
+      const numberOfRaters = workerData.numberOfRaters.toNumber();
+      const ratingTotal = workerData.rating.toNumber();
       if (numberOfRaters !== 0) {
         const rates = ratingTotal / numberOfRaters;
         console.log(rates + " rates");
@@ -122,12 +122,12 @@ const DoctorDetails = () => {
       } else {
         setRating(0);
       }
-      setDocName(doctorData.name);
-      setCategory(doctorData.category);
-      setPrice(ethers.utils.formatEther(doctorData.price));
-      setDocAddress(doctorData.doctorWallet);
-      setDescription(doctorData.description);
-      setAvailability(doctorData.isAvailable);
+      setDocName(workerData.name);
+      setCategory(workerData.category);
+      setPrice(ethers.utils.formatEther(workerData.price));
+      setDocAddress(workerData.workerWallet);
+      setDescription(workerData.description);
+      setAvailability(workerData.isAvailable);
     } catch (error) {
       toast.error(error);
     }
@@ -137,7 +137,7 @@ const DoctorDetails = () => {
     navigateTo("/updateprofile");
   };
   useEffect(() => {
-    getDoctorDetail();
+    getWorkerDetail();
   }, [docName, category, availability, rating]);
 
   return (
@@ -147,7 +147,7 @@ const DoctorDetails = () => {
           <div className="absolute z-[0] w-[40%] h-[45%] top-0 pink__gradient" />
           <div className="absolute z-[0] w-[50%] h-[50%] right-20 bottom-20 blue__gradient" />
           <h1 className="text-white h-[150px] nav-heading text-7xl text-center mt-6 text-gradient font-bold">
-            Doctor's Portfolio
+            Worker's Portfolio
           </h1>
 
           <ToastContainer />
@@ -198,7 +198,7 @@ const DoctorDetails = () => {
                     {address === docAddress ? (
                       <p
                         className="text-gradient font-semibold cursor-pointer"
-                        onClick={changeAvailabilityAndNavigateDoctor}
+                        onClick={changeAvailabilityAndNavigateWorker}
                       >
                         Change availability
                       </p>
@@ -216,7 +216,7 @@ const DoctorDetails = () => {
                     {address === docAddress ? (
                       <p
                         className="text-gradient font-semibold cursor-pointer"
-                        onClick={changeAvailabilityAndNavigateDoctor}
+                        onClick={changeAvailabilityAndNavigateWorker}
                       >
                         Change availability
                       </p>
@@ -233,7 +233,7 @@ const DoctorDetails = () => {
               {address !== docAddress ? (
                 <button
                   className="text-cyan-900 py-3 px-4 font-bold mb-8 mt-3 bg-blue-gradient rounded-[15px] outline-none ${styles} rounded-[10px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 cursor-pointer select-none text-center "
-                  onClick={startMeetingWithDoc}
+                  onClick={startMeetingWithWorker}
                 >
                   Start meeting
                 </button>
@@ -259,4 +259,4 @@ const DoctorDetails = () => {
   );
 };
 
-export default DoctorDetails;
+export default WorkerDetails;

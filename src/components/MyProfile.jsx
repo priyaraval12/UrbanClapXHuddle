@@ -51,20 +51,23 @@ const MyProfile = () => {
     }
   };
 
-  const addDoctor = async () => {
-    const docData = await contract.getDoctorByAddress(address);
-    const doccId = await contract.doctorsId();
-    const id = toast.loading("Adding you as a Doctor...")
+  const addWorker = async () => {
+    console.log("Add worker ");
+    const docData = await contract.getWorkerByAddress(address);
+    console.log("docData",docData.workerWallet);
+    const doccId = await contract.workerId();
+    console.log("doccId",doccId);
+    const id = toast.loading("Adding you")
 
 
     try {
-      if (docData.doctorWallet === "0x0000000000000000000000000000000000000000") {
-        let doctorInit = {
+      if (docData.workerWallet === '0x0000000000000000000000000000000000000000') {
+        let workerInit = {
           id: doccId.toNumber(),
           name: name,
           pfp: pfp,
           category: category,
-          doctorWallet: address,
+          workerWallet: address,
           description: description,
           price: ethers.utils.parseEther(price.toString()),
           rating: rating,
@@ -72,18 +75,19 @@ const MyProfile = () => {
           isAvailable: availability,
         }
 
-        let tx = await contract.addDoctor(
-          doctorInit.name,
-          doctorInit.category,
-          doctorInit.description,
-          doctorInit.pfp,
-          doctorInit.price,
-          doctorInit.rating,
-          doctorInit.meetingLink,
-          doctorInit.isAvailable
+        let tx = await contract.addWorker(
+          workerInit.name,
+          workerInit.category,
+          workerInit.description,
+          workerInit.pfp,
+          workerInit.price,
+          workerInit.rating,
+          workerInit.meetingLink,
+          workerInit.isAvailable
         );
+        console.log("tx => ", tx);
         toast.update(id, {
-          render: "Added Doctor sucessfully, return to the home page",
+          render: "Added Worker sucessfully, return to the home page",
           type: "success",
           isLoading: false,
           autoClose: 5000,
@@ -92,7 +96,7 @@ const MyProfile = () => {
       }
        else {
          toast.update(id, {
-           render: "You are already a registered doctor",
+           render: "You are already a registered worker",
            type: "error",
            isLoading: false,
            autoClose: 5000,
@@ -130,13 +134,7 @@ const MyProfile = () => {
               <div className="flex flex-col max-w-[600px] lg:max-w-[336px] ">
                 <div className="items-center mb-4">
                   <div className="w-full mb-4 items-center justify-center flex flex-col ">
-                    {/* <img
-                      className="w-[150px] item-center object-cover object-center min-h-[150px]"
-                      src={people01}
-                    ></img>
-                    <button className="text-cyan-900 py-3 px-4 font-bold mb-8 mt-6 bg-blue-gradient rounded-[15px] outline-none ${styles} rounded-[10px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 cursor-pointer select-none text-center ">
-                      Upload Profile Pic
-                    </button> */}
+ 
                     <label className="text-left block text-[17px] font-medium mb-2 text-white">
                       Name
                     </label>
@@ -242,7 +240,7 @@ const MyProfile = () => {
 
                     <button
                       className="text-cyan-900 py-3 px-14 font-bold mb-8 mt-6 bg-blue-gradient rounded-[15px] outline-none ${styles} rounded-[10px] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 cursor-pointer select-none text-center "
-                      onClick={addDoctor}
+                      onClick={addWorker}
                     >
                       Submit
                     </button>

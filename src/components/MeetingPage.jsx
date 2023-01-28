@@ -21,14 +21,14 @@ const MeetingPage = () => {
   });
 
   const getLink = async () => {
-    const docData = await contract.getDoctorByAddress(location.state.add);
+    const docData = await contract.getWorkerByAddress(location.state.add);
     setMeetingLink(docData.meetingLink);
   };
 
   const rate = async (ratig) => {
-    const docData = await contract.getDoctorByAddress(location.state.add);
+    const docData = await contract.getWorkerByAddress(location.state.add);
     // const appointmentData = await contract.appointmentsForDoctor(address);
-    const tx = await contract.rateDoctor(docData.doctorWallet, ratig)
+    const tx = await contract.rateWorker(docData.workerWallet, ratig)
     await tx.wait()
     console.log(tx)
   }

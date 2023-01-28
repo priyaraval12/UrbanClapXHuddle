@@ -13,7 +13,7 @@ const NavBar = () => {
 
   const [active, setActive] = useState("Home");
   const [toggle, setToggle] = useState(false);
-  const [doctorExists, setDoctorExists] = useState(false);
+  const [workerExists, setWorkerExists] = useState(false);
   const [available, setAvailable] = useState(false);
   const [id, setId] = useState(0);
   const [meeting, setMeeting] = useState("");
@@ -34,14 +34,14 @@ const NavBar = () => {
     signerOrProvider: signer || provider,
   });
 
-  const checkDoctor = async () => {
-    const doctorData = await contract.getDoctorByAddress(address);
-    console.log(doctorData.isAvailable + " ac");
-    setId(doctorData.id)
-    setAvailable(doctorData.isAvailable)
-    setMeeting(doctorData.meetingLink)
-    if (doctorData.doctorWallet !== "0x0000000000000000000000000000000000000000") {
-      setDoctorExists(true)
+  const checkWorker = async () => {
+    const workerData = await contract.getWorkerByAddress(address);
+    console.log(workerData.isAvailable + " ac");
+    setId(workerData.id)
+    setAvailable(workerData.isAvailable)
+    setMeeting(workerData.meetingLink)
+    if (workerData.workerWallet !== "0x0000000000000000000000000000000000000000") {
+      setWorkerExists(true)
     }
   }
 
@@ -54,8 +54,8 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    checkDoctor()
-  }, [doctorExists, active, address])
+    checkWorker()
+  }, [workerExists, active, address])
 
   const goToPage = (destination, title) => {
     setActive(title);
@@ -88,7 +88,7 @@ const NavBar = () => {
           </li>
         ))}
       </ul>
-      {doctorExists ? <p
+      {workerExists ? <p
         className={`font-poppins mr-5 text-white font-normal cursor-pointer text-[16px] mr-10}`}
         onClick={openMyProfile}
       >

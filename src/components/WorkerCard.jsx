@@ -25,7 +25,7 @@ const WorkerCard = (props) => {
 
   const checkAvailability = async () => {
     console.log(docId.toNumber() + " $$$$");
-    const workerData = await contract.getDoctor(docId);
+    const workerData = await contract.getWorker(docId);
     const isAvailable = workerData.isAvailable;
     setAvailability(isAvailable);
     console.log(isAvailable);

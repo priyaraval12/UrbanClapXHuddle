@@ -9,7 +9,7 @@ import { CONTRACT_ADDRESS } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
-import doc from "../assets/doctor.svg";
+import doc from "../assets/worker.svg";
 
 const DashBoard = () => {
   const [workers, setWorkers] = useState([]);
@@ -30,8 +30,8 @@ const DashBoard = () => {
     abi: contractABI,
     signerOrProvider: signer || provider,
   });
-  const getNumberOfDocs = async () => {
-    const docsCount = await contract.doctorsId();
+  const getNumberOfWorkers = async () => {
+    const docsCount = await contract.workerId();
     return docsCount.toNumber();
   };
 
@@ -48,8 +48,8 @@ const DashBoard = () => {
     }
   };
 
-  const getSingleDocData = async (id) => {
-    const docData = await contract.getDoctor(id);
+  const getSingleWorkerData = async (id) => {
+    const docData = await contract.getWorker(id);
     const numberOfRaters = docData.numberOfRaters.toNumber();
     const ratingTotal = docData.rating.toNumber();
     if (numberOfRaters !== 0) {
@@ -64,7 +64,7 @@ const DashBoard = () => {
       name: docData.name,
       pfp: docData.pfp,
       category: docData.category,
-      address: docData.doctorWallet,
+      address: docData.workerWallet,
       description: docData.description,
       price: docData.price,
       rating: docData.rating.toNumber(),
@@ -74,25 +74,22 @@ const DashBoard = () => {
     return parsedData;
   };
 
-  const getAllDocsData = async () => {
+  const getAllWorkerData = async () => {
     checkUserExists()
-    const totalDocs = await getNumberOfDocs();
+    const totalWorker = await getNumberOfWorkers();
     const promises = [];
-    console.log(totalDocs + " totalDocs");
-    for (let id = 0; id < totalDocs; id++) {
-      // if (id === 3) {
-      //   return;
-      // }
-      const requestsPromise = getSingleDocData(id);
+    console.log(totalWorker + " totalWorker");
+    for (let id = 0; id < totalWorker; id++) {
+      const requestsPromise = getSingleWorkerData(id);
       promises.push(requestsPromise);
     }
     const _workers = await Promise.all(promises);
     setWorkers(_workers);
-    console.log(workers);
+    console.log("workers",_workers);
   };
 
   useEffect(() => {
-    getAllDocsData();
+    getAllWorkerData();
   }, []);
 
   return (
@@ -104,9 +101,7 @@ const DashBoard = () => {
       <div className="absolute z-[0] w-[40%] h-[35%] top-0 pink__gradient" />
       <div className="absolute z-[0] w-[50%] h-[50%] right-20 bottom-20 blue__gradient" />
       <div className={`bg-primary ${styles.paddingX} ${styles.flexCenter}`}>
-        {/* <div
-          className={`flex lg:flex-row md:flex-col sm: flex-col justify-end items-center ${styles.boxWidth} `}
-        > */}
+
         <div className="lg:grid grid-cols-3 gap-8 md:flex-col sm:flex-col">
           {workers ? (
             workers.map((worker) => {
@@ -126,10 +121,9 @@ const DashBoard = () => {
               );
             })
           ) : (
-            <a>No doctors present</a>
+            <a>No workers present</a>
           )}
         </div>
-        {/* </div> */}
       </div>
     </section>
   );
