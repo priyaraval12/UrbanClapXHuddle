@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "../style";
-import DoctorCard from "./DoctorCard";
+import WorkerCard from "./WorkerCard";
 import ABI from "./../utils/abi";
 import { useSigner, useContract, useProvider, useAccount } from "wagmi";
 import star from "../assets/star.svg";
@@ -12,7 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import doc from "../assets/doctor.svg";
 
 const DashBoard = () => {
-  const [doctors, setDoctors] = useState([]);
+  const [workers, setWorkers] = useState([]);
   const [rating, setRating] = useState(0);
 
   const { data: signer } = useSigner();
@@ -86,9 +86,9 @@ const DashBoard = () => {
       const requestsPromise = getSingleDocData(id);
       promises.push(requestsPromise);
     }
-    const _doctors = await Promise.all(promises);
-    setDoctors(_doctors);
-    console.log(doctors);
+    const _workers = await Promise.all(promises);
+    setWorkers(_workers);
+    console.log(workers);
   };
 
   useEffect(() => {
@@ -108,19 +108,19 @@ const DashBoard = () => {
           className={`flex lg:flex-row md:flex-col sm: flex-col justify-end items-center ${styles.boxWidth} `}
         > */}
         <div className="lg:grid grid-cols-3 gap-8 md:flex-col sm:flex-col">
-          {doctors ? (
-            doctors.map((doctor) => {
+          {workers ? (
+            workers.map((worker) => {
               return (
-                <DoctorCard
-                  id={doctor.id}
+                <WorkerCard
+                  id={worker.id}
                   image={doc}
-                  name={doctor.name}
-                  category={doctor.category}
-                  price={ethers.utils.formatEther(doctor.price)}
+                  name={worker.name}
+                  category={worker.category}
+                  price={ethers.utils.formatEther(worker.price)}
                   matic={matic}
-                  desc={doctor.description}
-                  rate={doctor.rating}
-                  numberOfRaters={doctor.numberOfRaters}
+                  desc={worker.description}
+                  rate={worker.rating}
+                  numberOfRaters={worker.numberOfRaters}
                   star={star}
                 />
               );
